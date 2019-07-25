@@ -1,35 +1,81 @@
 Array.prototype.filter = function (fn) {
     let result = []
+
     this.forEach((x) => {
         if (fn(x)) {
             result.push(x);
         }
     });
+
     return result;
 };
 
-let x = [1,2,3,4]
-console.log(x.filter(y => (y % 2) === 0 ))
+let x = [1, 2, 3, 4]
+console.log(x.filter(y => (y % 2) === 0))
 
 Array.prototype.map = function (fn) {
     let result = new Array(this.length)
+
     this.forEach((x, i) => {
         result[i] = fn(x);
     });
+
     return result;
 };
 
-Array.prototype.reduce = function (fn) {
+x = [1, 2, 3, 4]
+console.log(x.map(y => y * 2))
 
+Array.prototype.reduce = function (fn, initialValue) {
+    if (this.length < 1) {
+        return 0;
+    }
+
+    let accumulate = !!initialValue ? initialValue : this[0];
+    let x = accumulate === initialValue ? 0 : 1;
+    for (; x < this.length; x++) {
+        accumulate = fn(accumulate, this[x]);
+    }
+
+    return accumulate;
 };
 
+x = [1, 2, 3, 4]
+console.log(x.reduce((y, z) => y * z));
 
-function debouce(fn, wait) {
-
+function debounce(fn, wait) {
+    let isDebounced = false;
+    return function () {
+        if (!isDebounced) {
+            fn.apply(fn, arguments);
+            isDebounced = true;
+            setTimeout(() => isDebounced = false, wait);
+        }
+    }
 }
 
 function throttle(fn, limit) {
+    let isThrottled = false, savedArgs, savedThis;
+    function wrapper() {
+        if (isThrottled) {
+            savedArgs = arguments;
+            savedThis = this;
+            return;
+        }
 
+        fn.apply(this, arguments);
+
+        isThrottled = true;
+
+        setTimeout(() => {
+            isThrottled = false;
+            if (savedArgs && savedThis) {
+                wrapper.apply(savedThis, savedArgs);
+                savedArgs = null;
+                savedThis = null;
+            }
+        }, wait);
+    }
 }
 
 Function.prototype.bind = function () {
