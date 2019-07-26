@@ -126,11 +126,12 @@ let input = [
 // 10: 00: 06 -> ‘c’
 
 function printTasks(list) {
-    let totalTime = 0;
-    for (let task of list) {
-        totalTime += task.Time;
-        setTimeout(() => console.log(`${Date.now()} -> '${task.Value}'`), totalTime);
-    }
+    if (list.length < 1) return;
+    let curTask = list.shift();
+    setTimeout(() => {
+        console.log(`${new Date()} -> '${curTask.Value}'`);
+        printTasks(list);
+    }, curTask.Time)
 }
 
 printTasks(input);
