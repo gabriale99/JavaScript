@@ -78,9 +78,30 @@ function throttle(fn, limit) {
     }
 }
 
-Function.prototype.bind = function () {
-
+Function.prototype.bind = function (context) {
+    let fn = this;
+    let prevArgs = [].slice.call(arguments, 1)
+    return function() {
+        let newArgs = [].slice.call(arguments, 1)
+        let combineArgs = [].concat(prevArgs, newArgs);
+        return fn.apply(context,combineArgs);
+    }
 };
+
+
+var foo = {
+    x: 3
+}
+
+var bar = function(){
+    console.log(this.x);
+}
+
+bar(); // undefined
+
+var boundFunc = bar.bind(foo);
+
+boundFunc(); // 3
 
 let input = [
     {
@@ -105,6 +126,11 @@ let input = [
 // 10: 00: 06 -> ‘c’
 
 function printTasks(list) {
-
+    let totalTime = 0;
+    for (let task of list) {
+        totalTime += task.Time;
+        setTimeout(() => console.log(`${Date.now()} -> '${task.Value}'`), totalTime);
+    }
 }
 
+printTasks(input);
