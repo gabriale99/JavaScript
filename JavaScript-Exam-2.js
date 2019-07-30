@@ -81,10 +81,10 @@ function throttle(fn, limit) {
 Function.prototype.bind = function (context) {
     let fn = this;
     let prevArgs = [].slice.call(arguments, 1)
-    return function() {
+    return function () {
         let newArgs = [].slice.call(arguments, 1)
         let combineArgs = [].concat(prevArgs, newArgs);
-        return fn.apply(context,combineArgs);
+        return fn.apply(context, combineArgs);
     }
 };
 
@@ -93,7 +93,7 @@ var foo = {
     x: 3
 }
 
-var bar = function(){
+var bar = function () {
     console.log(this.x);
 }
 
@@ -126,12 +126,17 @@ let input = [
 // 10: 00: 06 -> ‘c’
 
 function printTasks(list) {
-    if (list.length < 1) return;
-    let curTask = list.shift();
-    setTimeout(() => {
-        console.log(`${new Date()} -> '${curTask.Value}'`);
-        printTasks(list);
-    }, curTask.Time)
+    let idx = 0;
+    function printTask() {
+        if (!list[idx]) return;
+        let curTask = list[idx];
+        setTimeout(() => {
+            console.log(`${new Date()} -> '${curTask.Value}'`);
+            idx++;
+            printTask();
+        }, curTask.Time)
+    }
+    printTask();
 }
 
 printTasks(input);
