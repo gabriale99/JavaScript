@@ -1,20 +1,31 @@
-input {
+.typeahead-container {
+    display: flex;
+    flex-direction: row;
+}
+
+input[type="textarea"] {
     width: 300px;
+    height: 50px;
+    font-size: 2em;
 }
 
 ul {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     margin: 0;
     padding: 0;
     width: 300px;
 }
 
 li {
+    display: flex;
+    height: 50px;
+    border: 1px solid black;
+    justify-content: center;
+    align-items: center;
     text-decoration: none;
     list-style: none;
-    border: 1px solid black;
 }
 
-span {
-    border: 1px solid blue;
+li:hover {
+    background-color: grey;
 }
