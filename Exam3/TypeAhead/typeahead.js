@@ -1,4 +1,5 @@
 'use strict'
+const arr = ['darth', 'jar jar bink', 'yoda', 'Anakin SkyWalker','Luke SkyWalker', 'princess leia']
 
 function removeDropdown(container) {
     container.removeChild(container.lastChild);
@@ -7,6 +8,7 @@ function removeDropdown(container) {
 function typeAheadView(container, model) {
     function render(data = document.createElement('ul')) {
         let dropdownMenu = container.querySelector('.dropdown-container');
+        // console.log(container.querySelector('input[type="submit"]').form)
         removeDropdown(dropdownMenu);
         dropdownMenu.appendChild(data);
     }
@@ -20,25 +22,30 @@ function typeAheadModel() {
     let input = document.querySelector('input[type="textarea"]')
     let subscriber;
 
-    let arr = ['darth', 'jar jar bink', 'yoda', 'Anakin SkyWalker','Luke SkyWalker', 'princess leia']
-    
     function updateDropdown() {
         data = document.createElement('ul');
         data.className = "dropdown";
-        for (let item of arr) {
-            let option = document.createElement('li');
-            option.innerHTML = item;
-            data.appendChild(option);
-        }
-        data.addEventListener('click', function() {
-            // console.log(event.target);
-            if (event.target.tagName === "LI") {
-                input.value = event.target.innerHTML;
+        let cur = input.value;
+        if(!!cur) {
+            let regex = new RegExp(`(.)*${cur}(.)*`, "gi")
+            for (let item of arr) {
+                if (!item.match(regex)) {
+                    continue;
+                }
+                let option = document.createElement('li');
+                option.innerHTML = item;
+                data.appendChild(option);
             }
-        });
+            data.addEventListener('click', function() {
+                if (event.target.closest('li')) {
+                    input.value = event.target.textContent;
+                    data.innerHTML = '';
+                }
+            });
+        }
         subscriber(data);
     }
-    input.addEventListener('keydown', updateDropdown)
+    input.addEventListener('keyup', updateDropdown)
 
     return {
         subscribe: function(fn) {
@@ -51,5 +58,3 @@ function typeAheadModel() {
 let container = document.querySelector('.typeahead-container');
 let model = typeAheadModel();
 let view = typeAheadView(container, model);
-model.updateDropdown();
-// console.log(model.updateDropdown);

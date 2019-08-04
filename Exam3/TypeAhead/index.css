@@ -1,19 +1,30 @@
+* {
+    box-sizing: border-box;
+}
+
 .typeahead-container {
     display: flex;
     flex-direction: row;
 }
 
-input[type="textarea"] {
-    width: 300px;
-    height: 50px;
-    font-size: 2em;
+.input-container {
+    display: flex;
+    flex-direction: row;
+}
+
+input {
+    padding: 10px;
+    margin: 0 10px 0 0;
+    font-size: 1em;
+}
+
+input[type='textarea'], ul {
+    width: 200px;
 }
 
 ul {
-    /* border: 1px solid red; */
     margin: 0;
     padding: 0;
-    width: 300px;
 }
 
 li {

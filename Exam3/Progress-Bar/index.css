@@ -3,13 +3,12 @@
 }
 .bar-container {
   border-radius: 5px;
-  width: 100%;
+  width: 50%;
   background-color: grey;
 }
 
 .progress-bar {
   display: flex;
-  padding-left: 5px;
   align-items: center;
   height: 30px;
   width: 0%;
