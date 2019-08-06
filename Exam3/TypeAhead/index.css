@@ -1,42 +1,46 @@
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .typeahead-container {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .input-container {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 input {
-    padding: 10px;
-    margin: 0 10px 0 0;
-    font-size: 1em;
+  padding: 10px;
+  margin: 0 10px 0 0;
+  font-size: 1em;
 }
 
 input[type='textarea'], ul {
-    width: 200px;
+  width: 200px;
 }
 
 ul {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 li {
-    display: flex;
-    height: 50px;
-    border: 1px solid black;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    list-style: none;
+  display: flex;
+  height: 50px;
+  border: 1px solid black;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  list-style: none;
 }
 
 li:hover {
-    background-color: grey;
+  background-color: grey;
+}
+
+.character {
+  border: 1px solid red;
 }

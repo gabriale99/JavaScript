@@ -2,21 +2,24 @@
 <html>
 
 <head>
-    <title>TypeAhead</title>
-    <link rel="stylesheet" type="text/css" href="index.css">
+  <title>TypeAhead</title>
+  <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 
 <body>
-    <p>Search a <strong>Star Wars</strong> character</p>
-    <form class="typeahead-container">
-        <div class="dropdown-container">
-            <div class="input-container">
-                <input type="textarea" name='input' autofocus></input>
-                <input type="submit" name='submit'></input>
-            </div>
+  <p>Search a <strong>Star Wars</strong> character</p>
+  <form>
+    <div class="typeahead-container">
+      <div class="dropdown-container">
+        <div class="input-container">
+          <input type="textarea" name='input' autofocus></input>
+          <input type="submit" name='submit'></input>
         </div>
-        <script type="text/javascript" src="typeahead.js"></script>
-    </form>
+      </div>
+      <div class="character"></div>
+      <script type="text/javascript" src="typeahead.js"></script>
+    </div>
+  </form>
 </body>
 
 </html>

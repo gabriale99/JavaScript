@@ -30,8 +30,9 @@ function autocompleteView(container, model) {
   render();
 }
 
-function autocompleteModel(form) {
+function autocompleteModel() {
   let data, state;
+  let form = document.querySelector('form');
   let input = form.querySelector('input[type="textarea"]')
   let subscriber;
 
@@ -51,8 +52,7 @@ function autocompleteModel(form) {
         data.appendChild(option);
       }
       
-      cur = cur.toUpperCase();
-      if (data.children.length === 1 && data.firstChild.innerHTML === cur) {
+      if (data.children.length === 1) {
         state = data.firstChild.innerHTML;
       }
 
@@ -69,6 +69,7 @@ function autocompleteModel(form) {
   }
 
   input.addEventListener('input', updateDropdown);
+
   form.onsubmit = function() {
     data.innerHTML = input.value = '';
     subscriber(data, state);
@@ -83,5 +84,5 @@ function autocompleteModel(form) {
 }
 
 let container = document.querySelector('.autocomplete-container');
-let model = autocompleteModel(container);
+let model = autocompleteModel();
 let view = autocompleteView(container, model);
