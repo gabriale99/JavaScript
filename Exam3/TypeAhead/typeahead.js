@@ -8,7 +8,6 @@ function removeDropdown(container) {
 function typeAheadView(container, model) {
     function render(data = document.createElement('ul')) {
         let dropdownMenu = container.querySelector('.dropdown-container');
-        // console.log(container.querySelector('input[type="submit"]').form)
         removeDropdown(dropdownMenu);
         dropdownMenu.appendChild(data);
     }
@@ -45,7 +44,7 @@ function typeAheadModel() {
         }
         subscriber(data);
     }
-    input.addEventListener('keyup', updateDropdown)
+    input.addEventListener('input', updateDropdown)
 
     return {
         subscribe: function(fn) {

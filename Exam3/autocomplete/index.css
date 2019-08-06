@@ -2,12 +2,7 @@
     box-sizing: border-box;
 }
 
-.typeahead-container {
-    display: flex;
-    flex-direction: row;
-}
-
-.input-container {
+.autocomplete-container, .input-container {
     display: flex;
     flex-direction: row;
 }

@@ -14,26 +14,32 @@ function removeDropdown(container) {
   container.removeChild(container.lastChild);
 }
 
-function typeAheadView(container, model) {
-  function render(data = document.createElement('ul')) {
+function autocompleteView(container, model) {
+  function render(data = document.createElement('ul'), state) {
     let dropdownMenu = container.querySelector('.dropdown-container');
     removeDropdown(dropdownMenu);
     dropdownMenu.appendChild(data);
+    if (!state) return;
+    else {
+      let choseState = document.querySelector('.state');
+      choseState.innerHTML = state;
+    }
   }
   model.subscribe(render);
 
   render();
 }
 
-function typeAheadModel() {
-  let data;
-  let input = document.querySelector('input[type="textarea"]')
+function autocompleteModel(form) {
+  let data, state;
+  let input = form.querySelector('input[type="textarea"]')
   let subscriber;
 
   function updateDropdown() {
     data = document.createElement('ul');
     data.className = "dropdown";
     let cur = input.value;
+    state = '';
     if (!!cur) {
       let regex = new RegExp(`(.)*${cur}(.)*`, "gi")
       for (let item of arr) {
@@ -44,25 +50,38 @@ function typeAheadModel() {
         option.innerHTML = item;
         data.appendChild(option);
       }
+      
+      cur = cur.toUpperCase();
+      if (data.children.length === 1 && data.firstChild.innerHTML === cur) {
+        state = data.firstChild.innerHTML;
+      }
+
       data.addEventListener('click', function () {
         if (event.target.closest('li')) {
           input.value = event.target.textContent;
           data.innerHTML = '';
+          state = input.value;
+          input.focus();
         }
       });
     }
     subscriber(data);
   }
-  input.addEventListener('keyup', updateDropdown)
+
+  input.addEventListener('input', updateDropdown);
+  form.onsubmit = function() {
+    data.innerHTML = input.value = '';
+    subscriber(data, state);
+    return false;
+  }
 
   return {
     subscribe: function (fn) {
       if (!subscriber) subscriber = fn;
-    },
-    updateDropdown: updateDropdown,
+    }
   }
 }
 
-let container = document.querySelector('.typeahead-container');
-let model = typeAheadModel();
-let view = typeAheadView(container, model);
+let container = document.querySelector('.autocomplete-container');
+let model = autocompleteModel(container);
+let view = autocompleteView(container, model);
