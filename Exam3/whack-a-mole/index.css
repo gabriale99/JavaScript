@@ -1,0 +1,12 @@
+.grid {
+    display: grid;
+    background-color: chocolate;
+}
+
+.grid-box {
+    width: auto;
+    height: 100px;
+    text-align: center;
+    border: 1px solid black;
+    margin-left: -1px;
+}

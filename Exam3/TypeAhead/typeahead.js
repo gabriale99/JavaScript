@@ -15,7 +15,7 @@ function typeAheadView(container, model) {
       info.innerHTML = '';
       for (let prop in character) {
         let div = document.createElement('div');
-        div.className = 'character-prop'
+        // div.className = 'character-prop'
         div.innerHTML = `${prop}: ${character[prop]}`;
         info.appendChild(div);
       }
@@ -63,7 +63,7 @@ function typeAheadModel() {
       input.value = event.target.textContent;
       data.innerHTML = '';
       character = input.value;
-      console.log("click: " + character);
+      // console.log("click: " + character);
       input.focus();
     });
 
@@ -79,7 +79,6 @@ function typeAheadModel() {
     fetch(`https://swapi.co/api/people/?search=${character}`)
       .then(response => response.json())
       .then(json => {
-        // console.log(json)
         subscriber(data, json.results[0]);
       })
     return false;
