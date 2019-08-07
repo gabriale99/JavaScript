@@ -42,5 +42,14 @@ li:hover {
 }
 
 .character {
-  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+  width: 50%;
+  height: 500px;
+}
+
+.character-prop {
+  overflow: auto;
 }
