@@ -23,8 +23,8 @@ function whackAMoleView(container, model) {
   let moves = document.createElement('h3');
   moveDiv.append(moveBoard, moves);
 
-  container.appendChild(grid);
   container.appendChild(start);
+  container.appendChild(grid);
   container.appendChild(scoreDiv);
   container.appendChild(moveDiv);
 
