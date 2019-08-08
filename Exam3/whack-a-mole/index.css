@@ -1,12 +1,27 @@
-.grid {
+.grid-container {
     display: grid;
     background-color: chocolate;
+    grid-template-columns: auto auto auto;
+    position: relative;
 }
 
-.grid-box {
+.grid-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: auto;
-    height: 100px;
+    min-height: 100px;
     text-align: center;
     border: 1px solid black;
     margin-left: -1px;
+}
+
+.start {
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
 }

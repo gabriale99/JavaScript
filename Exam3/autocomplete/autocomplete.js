@@ -15,16 +15,57 @@ function removeDropdown(container) {
 }
 
 function autocompleteView(container, model) {
-  function render(data = document.createElement('ul'), state) {
-    let dropdownMenu = container.querySelector('.dropdown-container');
-    removeDropdown(dropdownMenu);
-    dropdownMenu.appendChild(data);
+  let form = document.createElement('form');
+
+  let dropdownContainer = document.createElement('div');
+  dropdownContainer.className = 'dropdown-container';
+  let dropdownMenu = document.createElement('ul');
+  dropdownMenu.className = 'dropdown';
+
+  let inputContainer = document.createElement('div');
+  inputContainer.className = 'input-container';
+  let input = document.createElement('input');
+  input.type = 'textarea';
+  let submit = document.createElement('input');
+  submit.type = 'submit';
+
+  container.appendChild(form);
+  form.appendChild(dropdownContainer);
+  dropdownContainer.appendChild(inputContainer);
+  dropdownContainer.appendChild(dropdownMenu);
+  inputContainer.appendChild(input);
+  inputContainer.appendChild(submit);
+
+  let choseState = document.querySelector('.state');
+
+  function render(data = [], state) {
+    dropdownMenu.innerHTML = '';
+    for (let item in data) {
+      dropdownMenu.appendChild(data[item]);
+    }
     if (!state) return;
     else {
-      let choseState = document.querySelector('.state');
       choseState.innerHTML = state;
     }
   }
+
+  input.addEventListener('input', function () {
+    model.updateDropdown(input.value);
+  });
+
+  dropdownMenu.addEventListener('click', function (event) {
+      input.value = event.target.textContent;
+      dropdownMenu.innerHTML = '';
+      model.setState(input.value);
+      input.focus();
+  });
+
+  form.onsubmit = function () {
+    dropdownMenu.innerHTML = input.value = '';
+    render([], model.getState());
+    return false;
+  }
+
   model.subscribe(render);
 
   render();
@@ -33,53 +74,44 @@ function autocompleteView(container, model) {
 function autocompleteModel() {
   let data, state;
   let form = document.querySelector('form');
-  let input = form.querySelector('input[type="textarea"]')
   let subscriber;
 
-  function updateDropdown() {
-    data = document.createElement('ul');
-    data.className = "dropdown";
-    let cur = input.value;
-    state = '';
-    if (!!cur) {
-      let regex = new RegExp(`(.)*${cur}(.)*`, "gi")
+  function updateDropdown(value) {
+    data = []
+    if (!!value) {
+      let regex = new RegExp(`(.)*${value}(.)*`, "gi")
       for (let item of arr) {
         if (!item.match(regex)) {
           continue;
         }
         let option = document.createElement('li');
         option.innerHTML = item;
-        data.appendChild(option);
-      }
-      
-      if (data.children.length === 1) {
-        state = data.firstChild.innerHTML;
+        data.push(option);
       }
 
-      data.addEventListener('click', function () {
-        if (event.target.closest('li')) {
-          input.value = event.target.textContent;
-          data.innerHTML = '';
-          state = input.value;
-          input.focus();
-        }
-      });
+      if (data.length === 1) {
+        state = data[0].innerHTML;
+      }
     }
+
     subscriber(data);
   }
 
-  input.addEventListener('input', updateDropdown);
+  function setState(s) {
+    state = s;
+  }
 
-  form.onsubmit = function() {
-    data.innerHTML = input.value = '';
-    subscriber(data, state);
-    return false;
+  function getState() {
+    return state;
   }
 
   return {
     subscribe: function (fn) {
       if (!subscriber) subscriber = fn;
-    }
+    },
+    updateDropdown,
+    setState,
+    getState,
   }
 }
 

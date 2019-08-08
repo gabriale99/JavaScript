@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 
-.autocomplete-container, .input-container {
+.input-container {
     display: flex;
     flex-direction: row;
 }
